@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace лаб_3
 {
@@ -20,11 +21,14 @@ namespace лаб_3
             }
             return newStr;
         }
-        static string ConvertToAdditionalCode(string str)
+        static string ConvertToAdditionalCode(string str, int i)
         {
             string newStr = "";
-            int i;
-            for (i = (str.Length - 1); i > 0; i--)
+            for (int j = str.Length -1 ; j>i; j--)
+            {
+                newStr = (str[j] + newStr);
+            }
+            for (; i > 0; i--)
             {
                 if (str[i] == '1')
                 {
@@ -54,7 +58,7 @@ namespace лаб_3
             {
                 directCode[0] = "1";
                 string returnCode = ConvertToReturnCode(directCode[1]);
-                string additionalCode = ConvertToAdditionalCode(returnCode);
+                string additionalCode = ConvertToAdditionalCode(returnCode, returnCode.Length-1);
                 directCode[1] = additionalCode;
                 
             }
@@ -63,27 +67,28 @@ namespace лаб_3
                 directCode[0] = "0";
             }
         }
-        static void Addition(ref string first, string second, int i) 
+        static string Addition(ref string first, string second, int i) 
         {
             string result = "";
             for (; i > 0; i--)
             {
-                if (first[i] == 0 && second[i] == 0)
+                if (first[i] == '0' && second[i] == '0')
                 {
                     result = ('0' + result);
                 }
-                else if ((first[i] == 1 && second[i] == 0) || (first[i] == 0 && second[i] == 1)) 
+                else if ((first[i] == '1' && second[i] == '0') | (first[i] == '0' && second[i] == '1')) 
                 {
                     result = ('1' + result);
                 }
-                else if(first[i] == 1 && second[i] == 1) 
+                else if(first[i] == '1' && second[i] == '1') 
                 {
-                    result = ("0" + result);
+                    result = ('0' + result);
                     i--;
+                    first = ConvertToAdditionalCode(first, i);
+                    i++;
                 }
-
             }
-
+            return result;
         }
         static void Main(string[] args)
         {
@@ -124,6 +129,8 @@ namespace лаб_3
                 }
                 SecondTask(ref firstNum);
                 SecondTask(ref secondNum);
+                string sum = Addition(ref firstNum[1], secondNum[1], 14);
+                Console.WriteLine(sum);
             }
         }
     }
