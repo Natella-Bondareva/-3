@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace лаб_3
@@ -28,7 +29,7 @@ namespace лаб_3
             {
                 newStr = (str[j] + newStr);
             }
-            for (; i > 0; i--)
+            for (; i >= 0; i--)
             {
                 if (str[i] == '1')
                 {
@@ -70,7 +71,7 @@ namespace лаб_3
         static string Addition(ref string first, string second, int i) 
         {
             string result = "";
-            for (; i > 0; i--)
+            for (; i >= 0; i--)
             {
                 if (first[i] == '0' && second[i] == '0')
                 {
@@ -105,32 +106,92 @@ namespace лаб_3
             else
             {
                 int slide = firstPower - secondPower;
+                string power ;
                 if (slide > 0)
                 {
-                    secondNum[2] = firstNum[2];
-                    string scode = secondNum[1];
-                    while (slide > 0)
-                    {
-                        scode = "0" + scode;
-                        slide--;
-                    }
-                    secondNum[1] = scode;
+                    power = firstNum[2];
+                    Slide(ref secondNum[1], slide);
                 }
                 else
                 {
-                    firstNum[2] = secondNum[2];
-                    string fcode = firstNum[1];
-                    while (slide > 0)
-                    {
-                        fcode = "0" + fcode;
-                        slide--;
-                    }
-                    firstNum[1] = fcode;
+                    power = secondNum[2];
+                    Slide(ref firstNum[1], slide);
                 }
                 SecondTask(ref firstNum);
                 SecondTask(ref secondNum);
                 string sum = Addition(ref firstNum[1], secondNum[1], 14);
-                Console.WriteLine(sum);
+                string sign = "";
+                if (firstNum[0] == "0" && secondNum[0] == "0")
+                {
+                    sign = "";
+                }
+                else if ((firstNum[0] == "0" && secondNum[0] == "1") | (firstNum[0] == "1" && secondNum[0] == "0"))
+                {
+                    sign = "-";
+                }
+                else if (firstNum[0] == "1" && secondNum[0] == "1")
+                {
+                    sign = "-";
+                    sum = "0" + sum;
+                    power = Convert.ToString((Convert.ToInt32(power, 2) + 1),2 );
+                }
+                ConvertToDirect(ref sum);
+
+                Normalize(ref sum, ref power);
+
+                Console.WriteLine($"Результат: {sign}0,{sum}|{power}");
+            }
+        }
+        static void Normalize (ref string res, ref string power)
+        {
+            int i;
+            for ( i= 0; i < res.Length; i++)
+            {
+                if (res[i] == '1')
+                {
+                    break;
+                }
+            }
+            string copy = res.Substring(i);
+            while (i > 0)
+            {
+                power = Convert.ToString((Convert.ToInt32(power, 2) - 1), 2);
+                copy += '0';
+                i--;
+            }
+            res = copy;
+        }
+        static void ConvertToDirect(ref string result)
+        {
+            int i;
+            string newRes = "";
+            for (i = result.Length-1; i >=0 ; i--)
+            {
+                if (result[i]=='1')
+                {
+                    newRes = '0' + newRes;
+                    i--;
+                    break;
+                }
+                else
+                {
+                    newRes = '1' + newRes;
+                }
+            }
+            for (; i >= 0; i--)
+            {
+                 newRes = result[i] + newRes;
+            }
+            result = newRes;
+            Console.WriteLine(result);
+            result = ConvertToReturnCode(result);
+        }
+        static void Slide(ref string num, int slide)
+        {
+            while (slide > 0)
+            {
+                num = "0" + num;
+                slide--;
             }
         }
     }
