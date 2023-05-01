@@ -106,7 +106,7 @@ namespace лаб_3
             else
             {
                 int slide = firstPower - secondPower;
-                string power ;
+                string power;
                 if (slide > 0)
                 {
                     power = firstNum[2];
@@ -121,25 +121,29 @@ namespace лаб_3
                 SecondTask(ref secondNum);
                 string sum = Addition(ref firstNum[1], secondNum[1], 14);
                 string sign = "";
-                if (firstNum[0] == "0" && secondNum[0] == "0")
-                {
-                    sign = "";
-                }
-                else if ((firstNum[0] == "0" && secondNum[0] == "1") | (firstNum[0] == "1" && secondNum[0] == "0"))
-                {
-                    sign = "-";
-                }
-                else if (firstNum[0] == "1" && secondNum[0] == "1")
-                {
-                    sign = "-";
-                    sum = "0" + sum;
-                    power = Convert.ToString((Convert.ToInt32(power, 2) + 1),2 );
-                }
+                FindSingn(ref sign, ref sum, ref power, firstNum, secondNum);
                 ConvertToDirect(ref sum);
 
                 Normalize(ref sum, ref power);
 
                 Console.WriteLine($"Результат: {sign}0,{sum}|{power}");
+            }
+        }
+        static void FindSingn(ref string sign, ref string sum, ref string power, string[] firstNum, string[] secondNum) 
+        {
+            if (firstNum[0] == "0" && secondNum[0] == "0")
+            {
+                sign = "";
+            }
+            else if ((firstNum[0] == "0" && secondNum[0] == "1") | (firstNum[0] == "1" && secondNum[0] == "0"))
+            {
+                sign = "-";
+            }
+            else if (firstNum[0] == "1" && secondNum[0] == "1")
+            {
+                sign = "-";
+                sum = "0" + sum;
+                power = Convert.ToString((Convert.ToInt32(power, 2) + 1), 2);
             }
         }
         static void Normalize (ref string res, ref string power)
@@ -183,7 +187,6 @@ namespace лаб_3
                  newRes = result[i] + newRes;
             }
             result = newRes;
-            Console.WriteLine(result);
             result = ConvertToReturnCode(result);
         }
         static void Slide(ref string num, int slide)
