@@ -40,9 +40,8 @@ namespace лаб_3
                     newStr = ('1' + newStr);
                     break;
                 }
-            }
-            i--;
-            for (; i >= 0; i--)
+            }         
+            for (i--; i >= 0; i--)
             {
                 newStr = (str[i]+ newStr);
             }
@@ -60,8 +59,7 @@ namespace лаб_3
                 directCode[0] = "1";
                 string returnCode = ConvertToReturnCode(directCode[1]);
                 string additionalCode = ConvertToAdditionalCode(returnCode, returnCode.Length-1);
-                directCode[1] = additionalCode;
-                
+                directCode[1] = additionalCode;              
             }
             else
             {
@@ -123,7 +121,6 @@ namespace лаб_3
                 string sign = "";
                 FindSingn(ref sign, ref sum, ref power, firstNum, secondNum);
                 ConvertToDirect(ref sum);
-
                 Normalize(ref sum, ref power);
 
                 Console.WriteLine($"Результат: {sign}0,{sum}|{power}");
